@@ -1,17 +1,22 @@
 from clear import clear
 from calc_art import logo
 
+
 def add(n1, n2):
     return n1 + n2
+
 
 def subtract(n1, n2):
     return n1 - n2
 
+
 def multiply(n1, n2):
     return n1 * n2
 
+
 def divide(n1, n2):
     return n1 / n2
+
 
 operations = {
     "+": add,
@@ -19,6 +24,7 @@ operations = {
     "*": multiply,
     "/": divide
 }
+
 
 def calculator():
     print(logo)
@@ -41,5 +47,6 @@ def calculator():
             should_continue = False
             clear()
             calculator()
+
 
 calculator()
