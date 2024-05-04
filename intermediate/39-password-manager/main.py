@@ -15,7 +15,8 @@ def save():
         messagebox.showinfo(title="Oops", message="The fields are empty!")
     else:
         is_ok = messagebox.askokcancel(title=website, message=f"These are the details entered: \nEmail: {email} "
-                                                              f"\nPassword: {password} \nDo you want to save the password?")
+                                                              f"\nPassword: {password} \nDo you want to save the "
+                                                              f"password?")
         if is_ok:
             with open("data.txt", "a") as data_file:
                 data_file.write(f"{website} | {email} | {password}\n")
