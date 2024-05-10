@@ -1,6 +1,6 @@
 from tkinter import *
 from tkinter import messagebox
-import random
+from random import randint, choice, shuffle
 
 # ---------------------------- PASSWORD GENERATOR ------------------------------- #
 letters = ['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n', 'o', 'p', 'q', 'r', 's', 't', 'u', 'v',
@@ -9,26 +9,16 @@ letters = ['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n',
 numbers = ['0', '1', '2', '3', '4', '5', '6', '7', '8', '9']
 symbols = ['!', '#', '$', '%', '&', '(', ')', '*', '+']
 
-nr_letters = random.randint(8, 10)
-nr_numbers = random.randint(2, 4)
-nr_symbols = random.randint(2, 4)
 
-password_list = []
-for char in range(1, nr_letters + 1):
-    password_list.append(random.choice(letters))
+password_letters = [choice(letters) for _ in range(randint(8, 10))]
+password_numbers = [choice(numbers) for _ in range(randint(2, 4))]
+password_symbols = [choice(symbols) for _ in range(randint(2, 4))]
 
-for char in range(1, nr_numbers + 1):
-    password_list.append(random.choice(numbers))
+password_list = password_letters + password_numbers + password_symbols
+shuffle(password_list)
 
-for char in range(1, nr_symbols + 1):
-    password_list.append(random.choice(symbols))
-
-random.shuffle(password_list)
-
-password = ""
-for char in password_list:
-    password += char
-
+password = "".join(password_list)
+print(f"My password is: {password}")
 # ---------------------------- SAVE PASSWORD ------------------------------- #
 
 def save():
