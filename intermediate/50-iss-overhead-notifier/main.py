@@ -10,7 +10,7 @@ MY_LNG = 23.484989
 
 
 def is_iss_overhead():
-    response = requests.get(url="https://api.open-notify.org/iss-now.json")
+    response = requests.get(url="http://api.open-notify.org/iss-now.json")
     response.raise_for_status()
     data = response.json()
 
