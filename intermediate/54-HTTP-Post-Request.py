@@ -34,3 +34,11 @@ headers = {
 # print(response.text)
 
 pixel_creation_endpoint = f"{pixela_endpoint}/{USERNAME}/graphs/{GRAPH_ID}"
+
+pixel_data = {
+    "date": "20240702",
+    "quantity": "2"
+}
+
+response = requests.post(url=pixel_creation_endpoint, json=pixel_data, headers=headers)
+print(response.text)
