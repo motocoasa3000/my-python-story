@@ -39,12 +39,26 @@ pixel_creation_endpoint = f"{pixela_endpoint}/{USERNAME}/graphs/{GRAPH_ID}"
 today = datetime.now()
 print(today)
 
-today = datetime(year=2024, month=7, day=3)
+today = datetime.now()
 
 pixel_data = {
     "date": today.strftime("%d%m%Y"),
-    "quantity": "2"
+    "quantity": input("How many projects did you work on today? ")
 }
 
-response = requests.post(url=pixel_creation_endpoint, json=pixel_data, headers=headers)
+# response = requests.post(url=pixel_creation_endpoint, json=pixel_data, headers=headers)
+# print(response.text)
+
+update_endpoint = f"{pixela_endpoint}/{USERNAME}/graphs/{GRAPH_ID}/{today.strftime('%d%m%Y')}"
+
+new_pixel_data = {
+    "quantity": "4.5"
+}
+
+response = requests.put(url=update_endpoint, json=new_pixel_data, headers=headers)
 print(response.text)
+
+# delete_endpoint = f"{pixela_endpoint}/{USERNAME}/graphs/{GRAPH_ID}/{today.strftime('%d%m%Y')}"
+
+# response = requests.delete(url=delete_endpoint, headers=headers)
+# print(response.text)
