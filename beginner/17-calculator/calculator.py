@@ -29,11 +29,11 @@ operations = {
 def calculator():
     print(logo)
 
-    num1 = float(input("Calculator: \n"))
+    num1 = float(input("Calculator: First Number: \n"))
     for symbol in operations:
         print(symbol)
-    should_continue = True
 
+    should_continue = True
     while should_continue:
         operation_symbol = input("Pick an operation: ")
         num2 = float(input("What's the next number?: "))
