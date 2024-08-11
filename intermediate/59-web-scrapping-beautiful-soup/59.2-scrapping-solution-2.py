@@ -2,7 +2,9 @@ from bs4 import BeautifulSoup
 import requests
 
 # Live Website (will change over time)
+
 response = requests.get("https://news.ycombinator.com/")
+
 # Static practice website (below code will not work):
 # response = requests.get("https://appbrewery.github.io/news.ycombinator.com/")
 
