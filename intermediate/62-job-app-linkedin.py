@@ -5,9 +5,9 @@ from selenium.webdriver.chrome.service import Service as ChromeService
 from selenium.webdriver.common.by import By
 import time
 
-ACCOUNT_EMAIL = YOUR LOGIN EMAIL
-ACCOUNT_PASSWORD = YOUR LOGIN PASSWORD
-PHONE = YOUR PHONE NUMBER
+ACCOUNT_EMAIL = "YOUR LOGIN EMAI"
+ACCOUNT_PASSWORD = "YOUR LOGIN PASSWORD"
+PHONE = "YOUR PHONE NUMBER"
 
 
 def abort_application():
@@ -21,10 +21,10 @@ def abort_application():
     discard_button.click()
 
 
-chrome_driver_path = YOUR CHROME DRIVER PATH
+chrome_driver_path = "YOUR CHROME DRIVER PATH"
 
 # Optional - Automatically keep your chromedriver up to date.
-from webdriver_manager.chrome import ChromeDriverManager  # pip install webdriver-manager
+from webdriver.chrome import ChromeDriverManager  # pip install webdriver-manager
 chrome_driver_path = ChromeDriverManager(path=YOUR CHROME DRIVER FOLDER).install()
 
 # Optional - Keep the browser open if the script crashes.
