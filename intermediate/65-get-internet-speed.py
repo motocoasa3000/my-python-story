@@ -4,8 +4,8 @@ import time
 
 PROMISED_DOWN = 150
 PROMISED_UP = 10
-TWITTER_EMAIL = YOUR TWITTER EMAIL
-TWITTER_PASSWORD = YOUR TWITTER PASSWORD
+TWITTER_EMAIL = "YOUR TWITTER EMAIL"
+TWITTER_PASSWORD = "YOUR TWITTER PASSWORD"
 
 
 class InternetSpeedTwitterBot:
@@ -27,9 +27,10 @@ class InternetSpeedTwitterBot:
         go_button.click()
 
         time.sleep(60)
-        self.up = self.driver.find_element(By.XPATH, value='//*[@id="container"]/div/div[3]/div/div/div/div[2]/div[3]/div[3]/div/div[3]/div/div/div[2]/div[1]/div[2]/div/div[2]/span').text
-        self.down = self.driver.find_element(By.XPATH, value='//*[@id="container"]/div/div[3]/div/div/div/div[2]/div[3]/div[3]/div/div[3]/div/div/div[2]/div[1]/div[3]/div/div[2]/span').text
-
+        self.up = self.driver.find_element(By.XPATH,
+                                           value='//*[@id="container"]/div/div[3]/div/div/div/div[2]/div[3]/div[3]/div/div[3]/div/div/div[2]/div[1]/div[2]/div/div[2]/span').text
+        self.down = self.driver.find_element(By.XPATH,
+                                             value='//*[@id="container"]/div/div[3]/div/div/div/div[2]/div[3]/div[3]/div/div[3]/div/div/div[2]/div[1]/div[3]/div/div[2]/span').text
 
     def tweet_at_provider(self):
         pass
