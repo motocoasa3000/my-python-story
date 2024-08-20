@@ -51,6 +51,36 @@ class InstaFollower:
         if notifications_prompt:
             notifications_prompt.click()
 
+    def find_followers(self):
+        time.sleep(5)
+        # Will bring up the followers of an account
+        self.driver.get(f"https://www.instagram.com/{SIMILAR_ACCOUNT}/followers")
+
+        time.sleep(8.2)
+        # The xpath of the modal will change over time. Update yours accordingly.
+        modal_xpath = "/html/body/div[6]/div[1]/div/div[2]/div/div/div/div/div[2]/div/div/div[2]"
+        modal = self.driver.find_element(by=By.XPATH, value=modal_xpath)
+        for i in range(5):
+            # In this case we're executing some Javascript, that's what the execute_script() method does. The method
+            # can accept the script as well as an HTML element. The modal in this case, becomes the arguments[0] in
+            # the script. Then we're using Javascript to say: "scroll the top of the modal (popup) element by the
+            # height of the modal (popup)"
+            self.driver.execute_script("arguments[0].scrollTop = arguments[0].scrollHeight", modal)
+            time.sleep(2)
+
+    def follow(self):
+        # Check and update the (CSS) Selector for the "Follow" buttons as required.
+        all_buttons = self.driver.find_elements(By.CSS_SELECTOR, value='._aano button')
+
+        for button in all_buttons:
+            try:
+                button.click()
+                time.sleep(1.1)
+            # Clicking button for someone who is already being followed will trigger dialog to Unfollow/Cancel
+            except ElementClickInterceptedException:
+                cancel_button = self.driver.find_element(by=By.XPATH, value="//button[contains(text(), 'Cancel')]")
+                cancel_button.click()
+
 
 bot = InstaFollower()
 bot.login()
