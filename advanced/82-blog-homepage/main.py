@@ -3,32 +3,9 @@ import requests
 
 app = Flask(__name__)
 
-"""
-Delete previous code:
-@app.route('/')
-def home():
-    return render_template("index.html")
-@app.route("/login", methods=["POST"])
-def receive_data():
-    name = request.form["username"]
-    password = request.form["password"]
-    return f"<h1>Name: {name}, Password: {password}</h1>"
-"""
-
-# SOLUTION to Challenge:
-@app.route("/form-entry", methods=["POST"])
-def receive_data():
-    data = request.form
-    print(data["name"])
-    print(data["email"])
-    print(data["phone"])
-    print(data["message"])
-    return "<h1>Successfully sent your message</h1>"
-
-
-# Code from Day 59 below:
 # USE YOUR OWN npoint LINK! ADD AN IMAGE URL FOR YOUR POST. 👇
 posts = requests.get("https://api.npoint.io/c790b4d5cab58020d391").json()
+
 
 @app.route('/')
 def get_all_posts():
@@ -40,8 +17,16 @@ def about():
     return render_template("about.html")
 
 
-@app.route("/contact")
+# SOLUTION to Challenge:
+@app.route("/contact", methods=["GET", "POST"])
 def contact():
+    if request.method == "POST":
+        data = request.form
+        print(data["name"])
+        print(data["email"])
+        print(data["phone"])
+        print(data["message"])
+        return "<h1>Successfully sent your message</h1>"
     return render_template("contact.html")
 
 
@@ -56,4 +41,3 @@ def show_post(index):
 
 if __name__ == "__main__":
     app.run(debug=True)
-    
