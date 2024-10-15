@@ -28,11 +28,11 @@
         <div class="my-5">
           <!-- * * * * * * * * * * * * * * *-->
           <!-- * * Simplified SB Contact Form for the Tutorial* *-->
-          <!-- TODOo: add an action and a method to link this form to your main.py -->
+          <!-- Solution: change url for the action to 'contact'-->
           <form
             id="contactForm"
             name="sentMessage"
-            action="{{ url_for('receive_data') }}"
+            action="{{ url_for('contact') }}"
             method="post"
           >
             <div class="form-floating">
