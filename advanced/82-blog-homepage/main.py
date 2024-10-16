@@ -17,8 +17,6 @@ def get_all_posts():
 def about():
     return render_template("about.html")
 
-
-# SOLUTION to Challenge:
 @app.route("/contact", methods=["GET", "POST"])
 def contact():
     if request.method == "POST":
