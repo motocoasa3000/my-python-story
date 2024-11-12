@@ -29,6 +29,23 @@ class Cafe(db.Model):
     can_take_calls: Mapped[bool] = mapped_column(Boolean, nullable=False)
     coffee_price: Mapped[str] = mapped_column(String(250), nullable=True)
 
+@app.route("/random", methods=["GET"])
+def get_random_cafe():
+    random_cafe = db.session.execute(db.select(Cafe).order_by(db.sql.func.random()).limit(1)).scalar()
+    print(random_cafe)
+    return jsonify(Cafe={
+        "id": random_cafe.id,
+        "name": random_cafe.name,
+        "map_url": random_cafe.map_url,
+        "img_url": random_cafe.img_url,
+        "location": random_cafe.location,
+        "seats": random_cafe.seats,
+        "has_toilet": random_cafe.has_toilet,
+        "has_wifi": random_cafe.has_wifi,
+        "has_sockets": random_cafe.has_sockets,
+        "can_take_calls": random_cafe.can_take_calls,
+        "coffee_price": random_cafe.coffee_price,
+    })
 
 with app.app_context():
     db.create_all()
