@@ -50,6 +50,23 @@ def get_random_cafe():
 with app.app_context():
     db.create_all()
 
+@app.route("/all")
+def get_all_cafes():
+    result = db.session.execute(db.select(Cafe).order_by(Cafe.name))
+    all_cafes = result.scalars().all()
+    #This uses a List Comprehension but you could also split it into 3 lines.
+    return jsonify(cafes=[cafe.to_dict() for cafe in all_cafes])
+
+@app.route("/search")
+def get_cafe_at_location():
+    query_location = request.args.get("loc")
+    result = db.session.execute(db.select(Cafe).where(Cafe.location == query_location))
+    # Note, this may get more than one cafe per location
+    all_cafes = result.scalars().all()
+    if all_cafes:
+        return jsonify(cafes=[cafe.to_dict() for cafe in all_cafes])
+    else:
+        return jsonify(error={"Not Found": "Sorry, we don't have a cafe at that location."}), 404
 
 @app.route("/")
 def home():
