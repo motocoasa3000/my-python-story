@@ -1,5 +1,6 @@
 from datetime import date
-from flask import Flask, abort, render_template, redirect, url_for, flash
+import db
+from flask import Flask, abort, render_template, redirect, url_for, flash, app
 from flask_bootstrap import Bootstrap5
 from flask_ckeditor import CKEditor
 from flask_gravatar import Gravatar
@@ -19,6 +20,7 @@ login_manager.init_app(app)
 @login_manager.user_loader
 def load_user(user_id):
     return db.get_or_404(User, user_id)
+
 
 @app.route('/login', methods=["GET", "POST"])
 def login():
@@ -67,9 +69,12 @@ def register():
         )
         db.session.add(new_user)
         db.session.commit()
-        return redirect(url_for("get_all_posts"))
-    return render_template("register.html", form=form)
 
+        # This line will authenticate the user with Flask-Login
+        login_user(new_user)
+        return redirect(url_for("get_all_posts"))
+
+    return render_template("register.html", form=form)
 
 # CREATE DATABASE
 class Base(DeclarativeBase):
