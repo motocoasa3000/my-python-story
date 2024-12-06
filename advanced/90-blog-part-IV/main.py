@@ -57,6 +57,15 @@ with app.app_context():
 def register():
     form = RegisterForm()
     if form.validate_on_submit():
+
+        # Check if user email is already present in the database.
+        result = db.session.execute(db.select(User).where(User.email == form.email.data))
+        user = result.scalar()
+        if user:
+            # User already exists
+            flash("You've already signed up with that email, log in instead!")
+            return redirect(url_for('login'))
+
         hash_and_salted_password = generate_password_hash(
             form.password.data,
             method='pbkdf2:sha256',
@@ -69,11 +78,9 @@ def register():
         )
         db.session.add(new_user)
         db.session.commit()
-
         # This line will authenticate the user with Flask-Login
         login_user(new_user)
         return redirect(url_for("get_all_posts"))
-
     return render_template("register.html", form=form)
 
 # CREATE DATABASE
