@@ -29,3 +29,27 @@ df_apps_clean = df_apps_clean.drop_duplicates()
 df_apps_clean = df_apps_clean.drop_duplicates(subset=['App', 'Type', 'Price'])
 df_apps_clean[df_apps_clean.App == 'Instagram']
 df_apps_clean.shape
+
+# find the highest rated apps
+df_apps_clean.sort_values('Rating', ascending=False).head()
+
+# find 5 largest apps in terms of size (MBs)
+df_apps_clean.sort_values('Size_MBs', ascending=False).head()
+
+# find the 5 app with most reviews
+df_apps_clean.sort_values('Reviews', ascending=False).head()
+
+# plotly pie and donut charts - content ratings
+ratings = df_apps_clean.Content_Rating.value_counts()
+
+
+fig = px.pie(labels=ratings.index, values=ratings.values)
+fig.show()
+fig = px.pie(labels=ratings.index,
+             values=ratings.values,
+             title="Content Rating",
+             names=ratings.index,
+)
+fig.update_traces(textposition='outside', textinfo='percent+label')
+
+fig.show()
