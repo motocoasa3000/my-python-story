@@ -53,3 +53,29 @@ fig = px.pie(labels=ratings.index,
 fig.update_traces(textposition='outside', textinfo='percent+label')
 
 fig.show()
+
+
+# numeric type conversation: examine the number of installs
+df_apps_clean.Installs.describe()
+df_apps_clean.info()
+# Installs of data type obj cause of the (,) character
+df_apps_clean[['App', 'Installs']].groupby('Installs').count()
+
+df_apps_clean.Installs = df_apps_clean.Installs.astype(str).str.replace(',', "")
+df_apps_clean.Installs = pd.to_numeric(df_apps_clean.Installs)
+df_apps_clean[['App', 'Installs']].groupby('Installs').count()
+
+
+# Find the Most Expensive Apps, Filter out the Junk and Calculate a (ballpark) Sales Revenue estimate
+df_apps_clean.Price = df_apps_clean.Price.astype(str).str.replace('$', "")
+df_apps_clean.Price = pd.to_numeric(df_apps_clean.Price)
+# convert price to numeric data and investigate top 20 most expensive apps
+df_apps_clean.sort_values('Price', ascending=False).head(20)
+
+# the most expensive apps sub $250
+df_apps_clean = df_apps_clean[df_app_clean['Price'] < 250]
+df_apps_clean.sort_value('Price', ascending=False).head(5)
+
+# highest grossing paid apps (ballpark estimate)
+df_apps_clean['Revenue_estimate'] = df_apps_clean.Installs.mul(df_apps_clean.Price)
+df_apps_clean.sort_values('Revenue_Estimate', ascending=False)[:10]
