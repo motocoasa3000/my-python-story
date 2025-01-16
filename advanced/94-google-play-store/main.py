@@ -6,7 +6,6 @@ import plotly.express as px
 pd.options.display.float_format = '{:,.2f}'.format
 
 df_apps = pd.read_csv('apps.csv')
-df_apps.shape
 df_apps.head()
 df_apps.sample(5)
 df_apps.drop(['Last_Updated', 'Android_Ver'], axis=1, inplace=True)
@@ -17,7 +16,6 @@ nan_rows = df_apps[df_apps.Rating.isna()]
 print(nan_rows.shape)
 nan_rows.head()
 df_apps_clean = df_apps.dropna()
-df_apps_clean.shape
 
 # find and remove duplicates
 duplicated_rows = df_apps_clean[df_apps_clean.duplicated()]
@@ -73,12 +71,12 @@ df_apps_clean.Price = pd.to_numeric(df_apps_clean.Price)
 df_apps_clean.sort_values('Price', ascending=False).head(20)
 
 # the most expensive apps sub $250
-df_apps_clean = df_apps_clean[df_app_clean['Price'] < 250]
-df_apps_clean.sort_value('Price', ascending=False).head(5)
+df_apps_clean = df_apps_clean[df_apps_clean['Price'] < 250]
+df_apps_clean.sort_values('Price', ascending=False).head(5)
 
 # highest grossing paid apps (ballpark estimate)
 df_apps_clean['Revenue_estimate'] = df_apps_clean.Installs.mul(df_apps_clean.Price)
-df_apps_clean.sort_values('Revenue_Estimate', ascending=False)[:10]
+df_apps_clean.sort_values('Revenue_estimate', ascending=False)[:10]
 
 
 # Plotly bar charts & scatter plots: analysing app categories
@@ -98,13 +96,13 @@ bar.show()
 
 # Horizontal Bar chart - most popular categories (highest downloads)
 # group apps by category and then sum the number of installations
-category_installs = df_apps_clean.groupby('Category').agg({'installs': pd.Series.sum})
+category_installs = df_apps_clean.groupby('Category').agg({'Installs': pd.Series.sum})
 category_installs.sort_values('Installs', ascending=True, inplace=True)
 
 h_bar = px.bar(
     x = category_installs.Installs,
     y = category_installs.index,
-    orietnation='h',
+    orientation='h',
     title='Category Popularity'
 )
 
