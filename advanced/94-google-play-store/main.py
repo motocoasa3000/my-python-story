@@ -79,3 +79,34 @@ df_apps_clean.sort_value('Price', ascending=False).head(5)
 # highest grossing paid apps (ballpark estimate)
 df_apps_clean['Revenue_estimate'] = df_apps_clean.Installs.mul(df_apps_clean.Price)
 df_apps_clean.sort_values('Revenue_Estimate', ascending=False)[:10]
+
+
+# Plotly bar charts & scatter plots: analysing app categories
+# number of different categories
+df_apps_clean.Category.nunique()
+
+# number of apps per category
+top10_category = df_apps_clean.Category.value_counts()[:10]
+top10_category
+
+
+# Vertical Bar Chart - Highest Competition (Number of Apps)
+bar = px.bar(
+    x = top10_category.index, # index = category name
+    y = top10_category.values)
+bar.show()
+
+# Horizontal Bar chart - most popular categories (highest downloads)
+# group apps by category and then sum the number of installations
+category_installs = df_apps_clean.groupby('Category').agg({'installs': pd.Series.sum})
+category_installs.sort_values('Installs', ascending=True, inplace=True)
+
+h_bar = px.bar(
+    x = category_installs.Installs,
+    y = category_installs.index,
+    orietnation='h',
+    title='Category Popularity'
+)
+
+h_bar.update_layout(xaxis_title='Number of Downloads', yaxis_title='Category')
+h_bar.show()
