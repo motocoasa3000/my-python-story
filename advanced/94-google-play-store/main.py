@@ -52,4 +52,80 @@ fig = px.pie(labels=ratings.index,
 )
 fig.update_traces(textposition='outside', textinfo='percent+label')
 
-fig.show()
+
+# numeric type conversation: examine the number of installs
+df_apps_clean.Installs.describe()
+df_apps_clean.info()
+# Installs of data type obj cause of the (,) character
+df_apps_clean[['App', 'Installs']].groupby('Installs').count()
+
+df_apps_clean.Installs = df_apps_clean.Installs.astype(str).str.replace(',', "")
+df_apps_clean.Installs = pd.to_numeric(df_apps_clean.Installs)
+df_apps_clean[['App', 'Installs']].groupby('Installs').count()
+
+
+# Find the Most Expensive Apps, Filter out the Junk and Calculate a (ballpark) Sales Revenue estimate
+df_apps_clean.Price = df_apps_clean.Price.astype(str).str.replace('$', "")
+df_apps_clean.Price = pd.to_numeric(df_apps_clean.Price)
+# convert price to numeric data and investigate top 20 most expensive apps
+df_apps_clean.sort_values('Price', ascending=False).head(20)
+
+# the most expensive apps sub $250
+df_apps_clean = df_apps_clean[df_apps_clean['Price'] < 250]
+df_apps_clean.sort_values('Price', ascending=False).head(5)
+
+# highest grossing paid apps (ballpark estimate)
+df_apps_clean['Revenue_estimate'] = df_apps_clean.Installs.mul(df_apps_clean.Price)
+df_apps_clean.sort_values('Revenue_estimate', ascending=False)[:10]
+
+
+# Plotly bar charts & scatter plots: analysing app categories
+# number of different categories
+df_apps_clean.Category.nunique()
+
+# number of apps per category
+top10_category = df_apps_clean.Category.value_counts()[:10]
+top10_category
+
+
+# Vertical Bar Chart - Highest Competition (Number of Apps)
+bar = px.bar(
+    x = top10_category.index, # index = category name
+    y = top10_category.values)
+bar.show()
+
+# Horizontal Bar chart - most popular categories (highest downloads)
+# group apps by category and then sum the number of installations
+category_installs = df_apps_clean.groupby('Category').agg({'Installs': pd.Series.sum})
+category_installs.sort_values('Installs', ascending=True, inplace=True)
+
+h_bar = px.bar(
+    x = category_installs.Installs,
+    y = category_installs.index,
+    orientation='h',
+    title='Category Popularity'
+)
+
+h_bar.update_layout(xaxis_title='Number of Downloads', yaxis_title='Category')
+h_bar.show()
+
+
+# Category Concentration - Downloads vs. Competition
+# count the number of apps in each category
+cat_number = df_apps_clean.groupby('Category').agg({'App': pd.Series.count})
+cat_merged_df = pd.merge(cat_number, category_installs, on='Category', how="inner")
+print(f'The dimensions of the DataFrame are: {cat_merged_df.shape}')
+cat_merged_df.sort_values('Installs', ascending=False)
+
+scatter = px.scatter(cat_merged_df,
+                     x='App',
+                     y='Installs',
+                     title='Category Concentration',
+                     size='App',
+                     hover_name=cat_merged_df.index,
+                     color='Installs')
+
+scatter.update_layout(xaxis_title="Number of Apps (Lower=More Concentrated)",
+                      yaxis_title="Installs",
+                      yaxis=dict(type='log'))
+scatter.show()
