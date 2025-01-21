@@ -129,3 +129,33 @@ scatter.update_layout(xaxis_title="Number of Apps (Lower=More Concentrated)",
                       yaxis_title="Installs",
                       yaxis=dict(type='log'))
 scatter.show()
+
+
+# Extracting Nested Data from a Column
+
+# number of genres
+len(df_apps_clean.Genres.unique())
+
+# Problem: Have multiple categories seperated by ;
+df_apps_clean.Genres.value_counts().sort_values(ascending=True)[:5]
+
+# split the strings on the semi-colon and then .stack them.
+stack = df_apps_clean.Genres.str.split(';', expand=True).stack()
+print(f'We now have a single column with shape: {stack.shape}')
+num_genres = stack.value_counts()
+print(f'Number of genres: {len(num_genres)}')
+
+bar = px.bar(
+    x = num_genres.index[:15], # index = category name
+    y = num_genres.values[:15], # count
+    title='Top Genres',
+    hover_name=num_genres.index[:15],
+    color=num_genres.values[:15],
+    color_continuous_scale='Agsunset'
+)
+
+bar.update_layout(xaxis_title='Genre',
+                  yaxis_title='Number of Apps',
+                  coloraxis_showscale=False)
+
+bar.show()
