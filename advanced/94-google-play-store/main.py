@@ -159,3 +159,24 @@ bar.update_layout(xaxis_title='Genre',
                   coloraxis_showscale=False)
 
 bar.show()
+
+
+# Grouped Bar Charts: Free vs Paid Apps per Category
+
+df_free_vs_paid = df_apps_clean.groupby(["Category", "Type"],
+                                        as_index=False).agg({'App': pd.Series.count})
+df_free_vs_paid.sort_values('App')
+
+g_bar = px.bar(df_free_vs_paid,
+               x='Category',
+               y='App',
+               title='Free vs Paid Apps by Category',
+               color='Type',
+               barmode='group')
+
+g_bar.update_layout(xaxis_title='Category',
+                    yaxis_title='Number of Apps',
+                    xaxis={'categoryorder':'total descending'},
+                    yaxis=dict(type='log'),)
+
+g_bar.show()
