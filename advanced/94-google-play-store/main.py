@@ -180,3 +180,16 @@ g_bar.update_layout(xaxis_title='Category',
                     yaxis=dict(type='log'),)
 
 g_bar.show()
+
+box = px.box(df_apps_clean,
+             y='Installs',
+             x='Type',
+             color='Type',
+             notched=True,
+             points='all',
+             title='How Many Downloads are Paid Apps Giving Up?0'
+)
+
+box.update_layout(yaxis=dict(type='log'))
+
+box.show()
