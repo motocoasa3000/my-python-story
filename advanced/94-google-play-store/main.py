@@ -193,3 +193,38 @@ box = px.box(df_apps_clean,
 box.update_layout(yaxis=dict(type='log'))
 
 box.show()
+
+
+# Plotly Box Plots: Revenue by App Category
+# Generate the chart below:
+df_paid_apps = df_apps_clean[df_apps_clean['Type'] == 'Paid']
+
+box = px.box(df_paid_apps,
+             x='Category',
+             y='Revenue_Estimate',
+             title='How Much Can Paid Apps Earn?')
+
+box.update_layout(xaxis_title='Category',
+                  yaxis_title='Paid App Ballpark Revenue',
+                  xaxis={'categoryorder':'minascending'},
+                  yaxis=dict(type='log')
+)
+
+box.show()
+
+
+# Examine Paid App PRicing Strategies by Category
+df_paid_apps.Price.median()
+
+box = px.box(df_paid_apps,
+         x='Category',
+         y='Price',
+         title='Price per Category')
+
+box.update_layout(xaxis_title='Category',
+                  yaxis_title='Paid App Price',
+                  xaxis={'categoryorder':'max descending'},
+                  yaxis=dict(type='log')
+)
+
+box.show()
