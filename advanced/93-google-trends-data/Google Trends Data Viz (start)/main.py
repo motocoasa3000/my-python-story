@@ -10,6 +10,9 @@ df_btc_price = pd.read_csv('Daily Bitcoin Price.csv')
 
 df_unemployment = pd.read_csv('UE Benefits Search vs UE Rate 2004-19.csv')
 
+
+# Data Exploration
+
 print(df_tesla.shape)
 df_tesla.head()
 
@@ -18,14 +21,37 @@ print(f'Smallest value for Tesla in Web Search: {df_tesla.TSLA_WEB_SEARCH.min()}
 
 df_tesla.describe()
 
+
+# Unemployment Data
+
 print(df_unemployment.shape)
 df_unemployment.head()
 
 print('Largest value for "Unemployment Benefits" '
       f'in Web Search: {df_unemployment.UE_BENEFITS_WEB_SEARCH.max()}')
 
+
+# Bitcoin
+
 print(df_btc_price.shape)
 df_btc_price.head()
 
 print(df_btc_search.shape)
 df_btc_search.head()
+
+print(f'largest BTC News Search {df_btc_search.BTC_NEWS_SEARCH.max()}')
+
+
+# Data Cleaning
+# Check for Missing Values
+
+print(f'Missing values for Tesla?: {df_tesla.isna().values.any()}')
+print(f'Missing values for U/E?: {df_unemployment.isna().values.any()}')
+print(f'Missing values for BTC Search?: {df_btc_search.isna().values.any()}')
+print(f'Missing values? for BTC price?: {df_btc_price.isna().values.any()}')
+
+print(f'Number of Missing Values: {df_btc_price.isna().values.sum()}')
+df_btc_price[df_btc_price.CLOSE.isna()]
+
+# removing any missing values
+df_btc_price.dropna(inplace=True)
