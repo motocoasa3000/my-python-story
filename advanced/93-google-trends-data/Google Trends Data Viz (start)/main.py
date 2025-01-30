@@ -55,3 +55,18 @@ df_btc_price[df_btc_price.CLOSE.isna()]
 
 # removing any missing values
 df_btc_price.dropna(inplace=True)
+
+# Convert strings to DateTime Objects
+type(df_tesla.MONTH[0])
+
+df_tesla.MONTH = pd.to_datetime(df_tesla.MONTH)
+df_btc_search.MONTH = pd.to_datetime(df_btc_search.MONTH)
+df_btc_price.DATE = pd.to_datetime(df_btc_price.DATE)
+
+df_tesla.MONTH.head()
+
+# Converting from daily to monthly data
+df_btc_monthly = df_btc_price.resample('ME', on='DATE').last()
+
+print(df_btc_monthly.shape)
+df_btc_monthly.head()
