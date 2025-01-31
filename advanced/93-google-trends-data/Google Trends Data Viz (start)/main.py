@@ -89,9 +89,8 @@ register_matplotlib_converters()
 ax1 = plt.gca() # get current axis
 ax2 = ax1.twinx()
 
-ax1.set_ylabel('TSLA Stock Price', color=#E6232E)
-ax2.set_ylabel('Search Trend', color=#87CEEB)
+ax1.set_ylabel('TSLA Stock Price', color='#E6232E')
+ax2.set_ylabel('Search Trend', color='#87CEEB')
 
-ax1.plot(df_tesla.MONTH, df_tesla.TSLA_USD_CLOSE, color=#E6232E)
-ax2.plot(df_tesla.MONTH, df_tesla.TSLA_WEB_SEARCH=color=#87CEEB)
-
+ax1.plot(df_tesla.MONTH, df_tesla.TSLA_USD_CLOSE, color='#E6232E')
+ax2.plot(df_tesla.MONTH, df_tesla.TSLA_WEB_SEARCH, color='#87CEEB')
