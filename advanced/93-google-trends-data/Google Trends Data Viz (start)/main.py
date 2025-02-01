@@ -94,3 +94,21 @@ ax2.set_ylabel('Search Trend', color='#87CEEB')
 
 ax1.plot(df_tesla.MONTH, df_tesla.TSLA_USD_CLOSE, color='#E6232E')
 ax2.plot(df_tesla.MONTH, df_tesla.TSLA_WEB_SEARCH, color='#87CEEB')
+
+
+# Visualisation easy to read
+
+plt.figure(figsize=(14, 8), dpi=120) # increases size and resolution
+plt.title('Tesla Web Search vs Price', fontsize=18)
+
+ax1 = plt.gca()
+ax2 = ax1.twinx()
+
+# Increase fonsize and linewidth for larger charts
+ax1.set_ylabel('TSLA Stock Price', color='#E6232E', fontsize=14)
+ax2.set_ylabel('Search Trend', color='#87CEEB', fontsize=14)
+
+ax1.plot(df_tesla.MONTH, df_tesla.TSLA_USD_CLOSE, color='#E6232E', linewidth=3)
+ax2.plot(df_tesla.MONTH, df_tesla.TSLA_WEB_SEARCH, color='#87CEEB', linewidth=3)
+
+plt.show()
