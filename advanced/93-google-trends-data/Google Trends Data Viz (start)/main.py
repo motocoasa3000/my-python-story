@@ -172,3 +172,56 @@ ax2.plot(df_unemployment.MONTH, df_unemployment.UE_BENEFITS_WEB_SEARCH,
          '#87CEEB', linewidth=3)
 
 plt.show()
+
+
+# Calculate 3 month rolling average for the web searches. 3 month or 6 month average search data agains actual unemp.
+
+plt.figure(figsize=(14, 8), dpi=120)
+plt.title('Rolling Monthly US "Unemployment Benefits" Web Searches vs UNRATE', fontsize=18)
+plt.yticks(fontsize=14)
+plt.xticks(fontsize=14, rotation=45)
+
+ax1 = plt.gca()
+ax2 = ax1.twinx()
+
+ax1.xaxis.set_major_locator(years)
+ax1.xaxis.set_major_formatter(years_fmt)
+ax1.xaxis.set_minor_locator(months)
+
+ax1.set_ylabel('FRED U/E Rate', color='purple', fontsize=16)
+ax2.set_ylabel('Search Trend', color='skyblue', fontsize=16)
+
+ax1.set_ylim(bottom=3, top=10.5)
+ax1.set_xlim([df_unemployment.MONTH[0], df_unemployment.MONTH.max()])
+
+# Calculate the rolling average over a 6 month window
+roll_df = df_unemployment[['UE_BENEFITS_WEB_SEARCH', 'UNRATE']].rolling(window=6).mean()
+
+ax1.plot(df_unemployment.MONTH, roll_df.UNRATE, 'purple', linewidth=3, linestyle='-.')
+ax2.plot(df_unemployment.MONTH, roll_df.UE_BENEFITS_WEB_SEARCH, 'skyblue', linewidth=3)
+
+plt.show()
+
+
+# Including 2020 in Unemployment Charts
+
+df_ue_2020 = pd.read_csv('UE Benefits Search vs UE Rate 2004-20.csv')
+df_ue_2020.MONTH = pd.to_datetime(df_ue_2020.MONTH)
+
+plt.figure(figsize=(14,8), dpi=120)
+plt.yticks(fontsize=14)
+plt.xticks(fontsize=14, rotation=45)
+plt.title('Monthly US "Unemployment Benefits" Web Search vs UNRATE incl 2020', fontsize=18)
+
+ax1 = plt.gca()
+ax2 = ax1.twinx()
+
+ax1.set_ylabel('FRED U/E Rate', color='purple', fontsize=16)
+ax2.set_ylabel('Search Trend', color='skyblue', fontsize=16)
+
+ax1.set_xlim([df_ue_2020.MONTH.min(), df_ue_2020.MONTH.max()])
+
+ax1.plot(df_ue_2020.MONTH, df_ue_2020.UNRATE, 'purple', linewidth=3)
+ax2.plot(df_ue_2020.MONTH, df_ue_2020.UE_BENEFITS_WEB_SEARCH, 'skyblue', linewidth=3)
+
+plt.show()
