@@ -58,6 +58,17 @@ plt.ylabel('Nr. of Homes')
 
 plt.show()
 
+# Number of Rooms
+sns.displot(data.RM,
+            aspect=2,
+            kde=True,
+            color='#00796b')
+
+plt.title(f'Distribution of Rooms in Boston. Average: {data.RM.mean():.2}')
+plt.xlabel('Average Number of Rooms')
+plt.ylabel('Nr. of Homes')
+
+plt.show()
 
 
 # predicted_values = regr.predict(X_train)
