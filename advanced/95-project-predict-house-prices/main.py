@@ -33,6 +33,8 @@ data.describe()
 
 
 # Visualise the Features
+
+# House Prices
 sns.displot(data['PRICE'],
             bins=50,aspect=2,
             kde=True,
@@ -43,6 +45,19 @@ plt.xlabel('Price in 000s')
 plt.ylabel('Nr. of Homes')
 
 plt.show()
+
+# Length of Commute
+sns.displot(data.DIS,
+            bins=50,
+            aspect=2,
+            kde=True,
+            color='darkblue')
+plt.title(f'Distance to Employment Centres. Average: {(data.DIS.mean()):.2}')
+plt.xlabel('Weighted Distance to 5 Boston Employment Centres')
+plt.ylabel('Nr. of Homes')
+
+plt.show()
+
 
 
 # predicted_values = regr.predict(X_train)
