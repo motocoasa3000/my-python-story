@@ -70,6 +70,21 @@ plt.ylabel('Nr. of Homes')
 
 plt.show()
 
+# Access to Highways
+plt.figure(figsize=(10, 5), dpi=200)
+plt.hist(
+    data['RAD'],
+    bins=24,
+    ec='black',
+    color='#7b1fa2',
+    rwidth=0.5)
+
+plt.xlabel('Accesibility to Highways')
+plt.ylabel('Nr. of Houses')
+plt.show()
+
+
+
 
 # predicted_values = regr.predict(X_train)
 # residuals =(y_train = predicted_values)
