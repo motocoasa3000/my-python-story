@@ -79,7 +79,7 @@ plt.hist(
     color='#7b1fa2',
     rwidth=0.5)
 
-plt.xlabel('Accesibility to Highways')
+plt.xlabel('Accessibility to Highways')
 plt.ylabel('Nr. of Houses')
 plt.show()
 
