@@ -84,6 +84,26 @@ plt.ylabel('Nr. of Houses')
 plt.show()
 
 
+# Bar chart with plotly for CHAS to show many more homes are away from the river versus next to it
+
+river_access = data['CHAS'].value_counts()
+
+bar = px.bar(x=['No', 'Yes'],
+             y=river_access.values,
+             color_continuous_scale=px.colors.sequential.haline,
+             title='Next to Charles River?')
+
+bar.update_layout(xaxis_title='Property Located Next to the River?',
+                  yaxis_title='Number of Homes',
+                  coloraxis_showscale=False)
+bar.show()
+
+
+# Understanding the relationship in data
+
+sns.pairplot(data)
+plt.show()
+
 
 
 # predicted_values = regr.predict(X_train)
