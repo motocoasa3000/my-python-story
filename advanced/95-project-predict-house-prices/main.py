@@ -105,6 +105,32 @@ sns.pairplot(data)
 plt.show()
 
 
+# Compare DIS (Distance from employment) with NOX (Nitric Oxide Pollution) using Seaborn's `.jointplot()`.
+
+with sns.axes_style('darkgrid'):
+    sns.jointplot(x=data['DIS'],
+                  y=data['NOX'],
+                  height=8,
+                  kind='scatter',
+                  color='darkred',
+                  joint_kws={'alpha':0.5})
+
+plt.show()
+
+
+# Proportion of Non-Retail Industry vs Pollution
+# Compare INDUS (the proportion of non-retail industry i.e., factories)
+# with NOX (Nitric Oxide Pollution) using Seaborn's `.jointplot()`.
+
+with sns.axes_style('darkgrid'):
+    sns.jointplot(x=data.NOX,
+                  y=data.INDUS,
+                  # kind='hex',
+                  height=7,
+                  color='darkgreen',
+                  joint_kws={'alpha':0.5})
+plt.show()
+
 
 # predicted_values = regr.predict(X_train)
 # residuals =(y_train = predicted_values)
