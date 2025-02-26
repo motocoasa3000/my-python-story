@@ -132,6 +132,44 @@ with sns.axes_style('darkgrid'):
 plt.show()
 
 
+# Split Training & Test Dataset
+
+target = data['PRICE']
+features = data.drop('PRICE', axis=1)
+
+X_train, X_test, y_train, y_test = train_test_split(features,
+                                                    target,
+                                                    test_size=0.2,
+                                                    random_state=10)
+
+# % of training set
+train_pct = 100*len(X_train)/len(features)
+print(f'Training data os {train_pct:.3}% of the total data.')
+
+# % of test data set
+test_pct = 100*X_test.shape[0]/features.shape[0]
+print(f'Test data makes up the remaining {test_pct:0.3}%.')
+
+
+# Multivariable Regression
+# Run First Regression
+
+regr = LinearRegression()
+regr.fit(X_train, y_train)
+rsquared = regr.score(X_train, y_train)
+
+print(f'Training data r-squared: {rsquared:.2}')
+
+# Evaluate the Coefficients of the Model
+
+regr_coef = pd.DataFrame(data=regr.coef_, index=X_train.columns, columns=['Coefficient'])
+regr_coef
+
+# Premium for having an extra room
+premium = regr_coef.loc['RM'].values[0] * 1000 # i.e., ~3.11 * 1000
+print(f'The price premium for having an extra room is ${premium:.5}')
+
+
 # predicted_values = regr.predict(X_train)
 # residuals =(y_train = predicted_values)
 #
