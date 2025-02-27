@@ -170,6 +170,29 @@ premium = regr_coef.loc['RM'].values[0] * 1000 # i.e., ~3.11 * 1000
 print(f'The price premium for having an extra room is ${premium:.5}')
 
 
+# Analyse the estimated values & regression residuals
+# Create 2 scatter plots
+predicted_vals = regr.predict(X_train)
+residuals = (y_train - predicted_vals)
+
+# Original Regression of Actual vs. Predicted Prices
+plt.figure(dpi=100)
+plt.scatter(x=y_train, y=predicted_vals, c='indigo', alpha=0.6)
+plt.plot(y_train, y_train, color='cyan')
+plt.title(f'Actual vs Predicted Prices: $y_i$ vs $\hat y_i$', fontsize=18)
+plt.xlabel('Actual prices 000s $y _i$', fontsize=14)
+plt.ylabel('Predicted prices 000s $\hat y _i$', fontsize=14)
+plt.show()
+
+# Residuals vs Predicted values
+plt.figure(dpi=100)
+plt.scatter(x=predicted_vals, y=residuals, c='indigo', alpha=0.6)
+plt.title('Residuals vs Predicted Values', fontsize=18)
+plt.xlabel('Predicted Prices $\hat y _i$', fontsize=15)
+plt.ylabel('Residuals', fontsize=14)
+plt.show()
+
+
 # predicted_values = regr.predict(X_train)
 # residuals =(y_train = predicted_values)
 #
