@@ -192,6 +192,34 @@ plt.xlabel('Predicted Prices $\hat y _i$', fontsize=15)
 plt.ylabel('Residuals', fontsize=14)
 plt.show()
 
+# Residual Distribution Chart
+resid_mean = round(residuals.mean(), 2)
+resid_skew = round(residuals.skew(), 2)
+
+sns.displot(residuals, kde=True, color='indigo')
+plt.title(f'Residuals Skew ({resid_skew} Mean ({resid_mean})')
+plt.show()
+
+# Data transformations for a better fit
+tgt_skew = data['PRICE'].skew()
+sns.displot(data['PRICE'], kde='kde', color='green')
+plt.title(f'Normal Prices. Skew is {tgt_skew:.3}')
+plt.show()
+
+y_log = np.log(data['PRICE'])
+sns.displot(y_log, kde=True)
+plt.title(f'Log Prices. Skew is {y_log.skew():.3}')
+plt.show()
+
+# Log transformation
+plt.figure(dpi=150)
+plt.scatter(data.PRICE, np.log(data.PRICE))
+
+plt.title('Mapping the Original Price to a Log Price')
+plt.ylabel('Log Price')
+plt.xlabel('Actual $ Price in 000s')
+plt.show()
+
 
 # predicted_values = regr.predict(X_train)
 # residuals =(y_train = predicted_values)
