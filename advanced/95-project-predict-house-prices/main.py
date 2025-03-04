@@ -239,6 +239,11 @@ log_residuals = (log_y_train - log_predictions)
 print(f'Training data r-squared: {log_rsquared:.2}')
 
 
+# Evaluating Coefficients with Log Prices
+
+df_coef = pd.DataFrame(data-log_regr.coef_, index=X_train.columns, columns=['coef'])
+df_coef
+
 
 # predicted_values = regr.predict(X_train)
 # residuals =(y_train = predicted_values)
