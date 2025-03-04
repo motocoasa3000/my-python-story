@@ -221,6 +221,25 @@ plt.xlabel('Actual $ Price in 000s')
 plt.show()
 
 
+# Regression using Log Prices
+
+new_target = np.log(data['PRICE']) # use log prices
+features = data.drop("PRICE", axis=1)
+
+X_train, X_test, log_y_train, log_y_test = train_test_split(features,
+                                                            new_target,
+                                                            test_size=0.2,
+                                                            random_state=10)
+log_regr = LinearRegression()
+log_regr.fit(X_train, log_y_train)
+log_rsquared = log_regr.score(X_train, log_y_train)
+log_predictions = log_regr.predict(X_train)
+log_residuals = (log_y_train - log_predictions)
+
+print(f'Training data r-squared: {log_rsquared:.2}')
+
+
+
 # predicted_values = regr.predict(X_train)
 # residuals =(y_train = predicted_values)
 #
