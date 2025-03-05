@@ -3,6 +3,7 @@ import numpy as np
 import seaborn as sns
 import plotly.express as px
 import matplotlib.pyplot as plt
+from matplotlib.sphinxext.mathmpl import fontset_choice
 
 from sklearn.linear_model import LinearRegression
 from sklearn.model_selection import train_test_split
@@ -244,6 +245,43 @@ print(f'Training data r-squared: {log_rsquared:.2}')
 df_coef = pd.DataFrame(data-log_regr.coef_, index=X_train.columns, columns=['coef'])
 df_coef
 
+
+# Regression with Log Prices & Residual Plots
+
+# Graph of Actual vs Predicted Log Prices
+plt.scatter(x=log_y_train, y=log_predictions, c='navy', alpha-0.6)
+plt.plot(log_y_train, log_y_train, color='cyan')
+plt.title(f'Actual vs Predicted Log Prices: $y _i$ vs $\hat y_i$ (R-Squared {log_rsquared:.2})' , fontsize=17)
+plt.xlabel('Actual Log Prices $y _i$', fontsize=14)
+plt.ylabel('Predicted Log Prices $\hat y_i$', fontsize=14)
+plt.show()
+
+# Original Regression of Actual vs Predicted Prices
+plt.scatter(x=y_train, y=predicted_vals, c='indigo', alpha=0.6)
+plt.plot(y_train, y_train, color='cyan')
+plt.title(f'Original Actual vs Predicted Prices: $y _i$ vs $\hat y_i$ (R-Squared {rsquared:.3})', fontsize=17)
+plt.xlabel('Actual prices 000s $y _i$', fontsize=14)
+plt.ylabel('Predicted prices 000s $\hat _i$', fontsize=14)
+plt.show()
+
+# Residuals vs Predicted values (Log prices)
+plt.scatter(x=log_predictions, y=log_residuals, c='navy', alpha=0.6)
+plt.title('Residuals vs Fitted Values for Log Prices', fontsize=14)
+plt.ylabel('Residuals', fontsize=14)
+plt.show()
+
+# Residuals vs Predicted values
+plt.scatter(x=predicted_vals, y=residuals, c='indigo', alpha=0.6)
+plt.title('Original Residuals vs Fitted Values', fontsize=17)
+plt.xlabel('Predicted Prices $\hat y _i$', fontsize=14)
+plt.ylabel('Residuals', fontsize=14)
+plt.show()
+
+
+
+
+
+# Graph of Actual vs. Predicted Log Prices
 
 # predicted_values = regr.predict(X_train)
 # residuals =(y_train = predicted_values)
