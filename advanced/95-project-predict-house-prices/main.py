@@ -242,14 +242,14 @@ print(f'Training data r-squared: {log_rsquared:.2}')
 
 # Evaluating Coefficients with Log Prices
 
-df_coef = pd.DataFrame(data-log_regr.coef_, index=X_train.columns, columns=['coef'])
+df_coef = pd.DataFrame(data=log_regr.coef_, index=X_train.columns, columns=['coef'])
 df_coef
 
 
 # Regression with Log Prices & Residual Plots
 
 # Graph of Actual vs Predicted Log Prices
-plt.scatter(x=log_y_train, y=log_predictions, c='navy', alpha-0.6)
+plt.scatter(x=log_y_train, y=log_predictions, c='navy', alpha=0.6)
 plt.plot(log_y_train, log_y_train, color='cyan')
 plt.title(f'Actual vs Predicted Log Prices: $y _i$ vs $\hat y_i$ (R-Squared {log_rsquared:.2})' , fontsize=17)
 plt.xlabel('Actual Log Prices $y _i$', fontsize=14)
@@ -278,25 +278,14 @@ plt.ylabel('Residuals', fontsize=14)
 plt.show()
 
 
+# Distribution of Residuals (log prices) - checking for normality
+log_resid_mean = round(log_residuals.mean(), 2)
+log_resid_skew = round(log_residuals.skew(), 2)
 
+sns.displot(log_residuals, kde=True, color='navy')
+plt.title(f'Log price model: Residuals Skew ({log_resid_skew}) Mean ({log_resid_mean}')
+plt.show()
 
-
-# Graph of Actual vs. Predicted Log Prices
-
-# predicted_values = regr.predict(X_train)
-# residuals =(y_train = predicted_values)
-#
-# plt.figure(dpi=150)
-# plt.scatter(data.PRICE, np.log(data.PRICE))
-#
-# plt.title('Mapping the Original Price to a Log Price')
-# plt.ylabel('Log Price')
-# plt.xlabel('Actual $ Price in 000s')
-# plt.show()
-#
-# # Starting Point: Average Values in the Dataset
-# features = data.drop(['PRICE'], axis=1)
-# average_vals = features.mean().values
-# property_stats = pd.DataFrame(data=average_vals.reshape(1, len(features.columns)),
-#                               columns=features.columns)
-# property_stats
+sns.displot(residuals, kde=True, color='indigo')
+plt.title(f'Original model: Residuals Skew ({resid_skew}) Mean ({resid_mean}')
+plt.show()
