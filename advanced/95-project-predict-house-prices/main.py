@@ -285,7 +285,7 @@ print(f'Log Model Test Data r-squared: {log_regr.score(X_test, log_y_test):.2}')
 # Predict a Property's Value using the Regression Coefficients
 
 # Starting Point: average values in the dataset
-features = data.drop([Price], axis=1)
+features = data.drop(['PRICE'], axis=1)
 average_vals = features.mean().values
 property_stats = pd.DataFrame(data=average_vals.reshape(1, len(features.columns)),
                               columns=features.columns)
@@ -301,3 +301,32 @@ dollar_est = np.e**log_estimate * 1000
 dollar_est = np.exp(log_estimate) * 1000
 print(f'The property is estimated to be worth ${dollar_est:.6}')
 
+# Define Property Characteristics
+next_to_river = True
+nr_rooms = 8
+students_per_classroom = 20
+distance_to_town = 5
+pollution = data.NOX.quantile(q=0.75) # high
+amount_of_poverty = data.LSTAT.quantile(q=0.25) # low
+
+# Solution
+# Set Property Characteristics
+property_stats['RM'] = nr_rooms
+property_stats['PTRATIO'] = students_per_classroom
+property_stats['DIS'] = distance_to_town
+
+if next_to_river:
+    property_stats['CHAS'] = 1
+else:
+    property_stats['CHAS'] = 0
+
+property_stats['NOX'] = pollution
+property_stats['LSTAT'] = amount_of_poverty
+
+# Make Prediction
+log_estimate = log_regr.predict(property_stats)[0]
+print(f'The log price estimate is ${log_estimate:.3}')
+
+# Convert Log Prices to Actual dollar values
+dollar_est = np.e**log_estimate * 1000
+print(f'The property is estimate to be worth ${dollar_est:.6}')
