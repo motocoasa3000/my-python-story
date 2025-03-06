@@ -4,16 +4,15 @@ import seaborn as sns
 import plotly.express as px
 import matplotlib.pyplot as plt
 from matplotlib.sphinxext.mathmpl import fontset_choice
+from pandas.errors import PerformanceWarning
 
 from sklearn.linear_model import LinearRegression
 from sklearn.model_selection import train_test_split
-
 
 pd.options.display.float_format = '{:,.2f'.format
 
 # Load Data
 data = pd.read_csv('boston.csv', index_col=0)
-
 
 # Preliminary data exploration
 data.shape
@@ -28,20 +27,18 @@ data.info()
 print(f'Any NaN values? {data.isna().values.any()}')
 print(f'Any duplicates? {data.duplicated().values.any()}')
 
-
 # Descriptive Statistics
 data.describe()
-
 
 # Visualise the Features
 
 # House Prices
 sns.displot(data['PRICE'],
-            bins=50,aspect=2,
+            bins=50, aspect=2,
             kde=True,
             color='#2196f3')
 
-plt.title(f'1970s Home Values in Boston. Average: ${(1000*data.PRICE.mean()):.6}')
+plt.title(f'1970s Home Values in Boston. Average: ${(1000 * data.PRICE.mean()):.6}')
 plt.xlabel('Price in 000s')
 plt.ylabel('Nr. of Homes')
 
@@ -84,7 +81,6 @@ plt.xlabel('Accessibility to Highways')
 plt.ylabel('Nr. of Houses')
 plt.show()
 
-
 # Bar chart with plotly for CHAS to show many more homes are away from the river versus next to it
 
 river_access = data['CHAS'].value_counts()
@@ -99,12 +95,10 @@ bar.update_layout(xaxis_title='Property Located Next to the River?',
                   coloraxis_showscale=False)
 bar.show()
 
-
 # Understanding the relationship in data
 
 sns.pairplot(data)
 plt.show()
-
 
 # Compare DIS (Distance from employment) with NOX (Nitric Oxide Pollution) using Seaborn's `.jointplot()`.
 
@@ -114,10 +108,9 @@ with sns.axes_style('darkgrid'):
                   height=8,
                   kind='scatter',
                   color='darkred',
-                  joint_kws={'alpha':0.5})
+                  joint_kws={'alpha': 0.5})
 
 plt.show()
-
 
 # Proportion of Non-Retail Industry vs Pollution
 # Compare INDUS (the proportion of non-retail industry i.e., factories)
@@ -129,9 +122,8 @@ with sns.axes_style('darkgrid'):
                   # kind='hex',
                   height=7,
                   color='darkgreen',
-                  joint_kws={'alpha':0.5})
+                  joint_kws={'alpha': 0.5})
 plt.show()
-
 
 # Split Training & Test Dataset
 
@@ -144,13 +136,12 @@ X_train, X_test, y_train, y_test = train_test_split(features,
                                                     random_state=10)
 
 # % of training set
-train_pct = 100*len(X_train)/len(features)
+train_pct = 100 * len(X_train) / len(features)
 print(f'Training data os {train_pct:.3}% of the total data.')
 
 # % of test data set
-test_pct = 100*X_test.shape[0]/features.shape[0]
+test_pct = 100 * X_test.shape[0] / features.shape[0]
 print(f'Test data makes up the remaining {test_pct:0.3}%.')
-
 
 # Multivariable Regression
 # Run First Regression
@@ -167,9 +158,8 @@ regr_coef = pd.DataFrame(data=regr.coef_, index=X_train.columns, columns=['Coeff
 regr_coef
 
 # Premium for having an extra room
-premium = regr_coef.loc['RM'].values[0] * 1000 # i.e., ~3.11 * 1000
+premium = regr_coef.loc['RM'].values[0] * 1000  # i.e., ~3.11 * 1000
 print(f'The price premium for having an extra room is ${premium:.5}')
-
 
 # Analyse the estimated values & regression residuals
 # Create 2 scatter plots
@@ -221,10 +211,9 @@ plt.ylabel('Log Price')
 plt.xlabel('Actual $ Price in 000s')
 plt.show()
 
-
 # Regression using Log Prices
 
-new_target = np.log(data['PRICE']) # use log prices
+new_target = np.log(data['PRICE'])  # use log prices
 features = data.drop("PRICE", axis=1)
 
 X_train, X_test, log_y_train, log_y_test = train_test_split(features,
@@ -239,19 +228,17 @@ log_residuals = (log_y_train - log_predictions)
 
 print(f'Training data r-squared: {log_rsquared:.2}')
 
-
 # Evaluating Coefficients with Log Prices
 
 df_coef = pd.DataFrame(data=log_regr.coef_, index=X_train.columns, columns=['coef'])
 df_coef
-
 
 # Regression with Log Prices & Residual Plots
 
 # Graph of Actual vs Predicted Log Prices
 plt.scatter(x=log_y_train, y=log_predictions, c='navy', alpha=0.6)
 plt.plot(log_y_train, log_y_train, color='cyan')
-plt.title(f'Actual vs Predicted Log Prices: $y _i$ vs $\hat y_i$ (R-Squared {log_rsquared:.2})' , fontsize=17)
+plt.title(f'Actual vs Predicted Log Prices: $y _i$ vs $\hat y_i$ (R-Squared {log_rsquared:.2})', fontsize=17)
 plt.xlabel('Actual Log Prices $y _i$', fontsize=14)
 plt.ylabel('Predicted Log Prices $\hat y_i$', fontsize=14)
 plt.show()
@@ -277,7 +264,6 @@ plt.xlabel('Predicted Prices $\hat y _i$', fontsize=14)
 plt.ylabel('Residuals', fontsize=14)
 plt.show()
 
-
 # Distribution of Residuals (log prices) - checking for normality
 log_resid_mean = round(log_residuals.mean(), 2)
 log_resid_skew = round(log_residuals.skew(), 2)
@@ -289,3 +275,29 @@ plt.show()
 sns.displot(residuals, kde=True, color='indigo')
 plt.title(f'Original model: Residuals Skew ({resid_skew}) Mean ({resid_mean}')
 plt.show()
+
+
+# Compare Out of Sample PerformanceWarning
+print(f'Original Model Test Data r-sqared: {regr.score(X_test, y_test):.2}')
+print(f'Log Model Test Data r-squared: {log_regr.score(X_test, log_y_test):.2}')
+
+
+# Predict a Property's Value using the Regression Coefficients
+
+# Starting Point: average values in the dataset
+features = data.drop([Price], axis=1)
+average_vals = features.mean().values
+property_stats = pd.DataFrame(data=average_vals.reshape(1, len(features.columns)),
+                              columns=features.columns)
+property_stats
+
+# Make prediction
+log_estimate = log_regr.predict(property_stats)[0]
+print(f'The log price estimate is ${log_estimate:.3}')
+
+# Concert log prices to actual dollar values
+dollar_est = np.e**log_estimate * 1000
+# or use
+dollar_est = np.exp(log_estimate) * 1000
+print(f'The property is estimated to be worth ${dollar_est:.6}')
+
