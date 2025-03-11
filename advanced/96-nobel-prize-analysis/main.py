@@ -32,3 +32,21 @@ denomenator = pd.to_numeric(separated_values[1])
 df_data['share_pct'] = numerator / denomenator
 
 df_data.info()
+
+
+biology = df_data.sex.value_counts()
+fig = px.pie(labels=biology.index,
+             values=biology.values,
+             title="Percentage of Male vs. Female Winners",
+             names=biology.index,
+             hole=0.4)
+
+fig.update_traces(textposition='inside', textfont_size=15, textinfo='percent')
+fig.show()
+
+df_data[df_data.sex == 'Female'].sort_values('year', ascending=True)[:3]
+
+is_winner = df_data.duplicated(subset=['full_name'], keep=False)
+multiple_winners = df_data[is_winner]
+print(f'There are {multiple_winners.full_name.nunique()}' \
+      ' winners who were awarded the prize more than once.')
