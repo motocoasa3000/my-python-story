@@ -50,3 +50,27 @@ is_winner = df_data.duplicated(subset=['full_name'], keep=False)
 multiple_winners = df_data[is_winner]
 print(f'There are {multiple_winners.full_name.nunique()}' \
       ' winners who were awarded the prize more than once.')
+
+
+# Alternative:
+multiple_winners = df_data.groupby(by = 'full_name').filter(lambda x : x['year'].count() >= 2)
+
+col_subset = ['year', 'category', 'laureate_type', 'fullname']
+# multiple_winners[col_subset]
+
+# Number of different categories
+df_data.category.nunique()
+
+prizes_per_category = df_data.category.value_counts()
+v_bar = px.bar(
+    x = prizes_per_category.index,
+    y = prizes_per_category.values,
+    color = prizes_per_category.values,
+    color_continuous_scale='pubugn',
+    title='Number of Prizes Awarded per Category'
+)
+
+v_bar.update_layout(xaxis_title="Nobel Prize Category",
+                    coloraxis_showscale=False,
+                    yaxis_title='Number of Prizes')
+v_bar.show()
