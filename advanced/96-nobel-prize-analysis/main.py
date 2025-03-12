@@ -74,3 +74,20 @@ v_bar.update_layout(xaxis_title="Nobel Prize Category",
                     coloraxis_showscale=False,
                     yaxis_title='Number of Prizes')
 v_bar.show()
+
+df_data[df_data.category == 'Economics'].sort_values('year')[:3]
+
+cat_men_women = df_data.groupby(['category', 'sex'],
+                                as_index=False).agg({'prize': pd.Series.count})
+cat_men_women.sort_values('prize', ascending=False, inplace=True)
+cat_men_women
+
+v_bar_split = px.bar(x = cat_men_women.category,
+                     y = cat_men_women.prize,
+                     color = cat_men_women.sex,
+                     title='Number of Prizes Awarded per Category split by Men and Women')
+
+v_bar_split.update_layout(xaxis_title='Nobel Prize Category',
+                          yaxis_title='Number of Prizes')
+
+v_bar_split.show()
