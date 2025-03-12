@@ -91,3 +91,20 @@ v_bar_split.update_layout(xaxis_title='Nobel Prize Category',
                           yaxis_title='Number of Prizes')
 
 v_bar_split.show()
+
+# prize per year
+prize_per_year = df_data.groupby(by='year').count().prize
+moving_average = prize_per_year.rolling(window=5).mean()
+
+plt.scatter(x=prize_per_year.index,
+            y=prize_per_year.values,
+            c='dodgerblue',
+            alpha=0.7,
+            s=100)
+
+plt.plot(prize_per_year.index,
+         prize_per_year.values,
+         c='crimson',
+         linewidth=3)
+
+plt.show()
