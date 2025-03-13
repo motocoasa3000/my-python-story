@@ -108,3 +108,27 @@ plt.plot(prize_per_year.index,
          linewidth=3)
 
 plt.show()
+
+
+plt.figure(figsize=(16,8), dpi=200)
+plt.title('Number of Nobel Prizes Awarded per Year', fontsize=18)
+plt.yticks(fontsize=14)
+plt.xticks(ticks=np.arange(1900, 2021, step=5),
+           fontsize=14,
+           rotation=45)
+
+ax = plt.gca()
+ax.set_xlim(1900, 2020)
+
+ax.scatter(x=prize_per_year.index,
+           y=prize_per_year.values,
+           c='dodgerblue',
+           alpha=0.7,
+           s=100,)
+
+ax.plot(prize_per_year.index,
+        moving_average.values,
+        c='crimson',
+        linewidth=3,)
+
+plt.show()
