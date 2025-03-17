@@ -118,7 +118,7 @@ plt.xticks(ticks=np.arange(1900, 2021, step=5),
            rotation=45)
 
 ax = plt.gca()
-ax.set_xlim(1900, 2020)
+ax.set_xlim(1900, 2024)
 
 ax.scatter(x=prize_per_year.index,
            y=prize_per_year.values,
@@ -140,13 +140,16 @@ share_moving_average = yearly_avg_share.rolling(window=5).mean()
 plt.figure(figsize=(16,8), dpi=200)
 plt.title('Number of Nobel Prizes Awarded per Year', fontsize=18)
 plt.yticks(fontsize=14)
-plt.xticks(ticks=np.arange(1900, 2021, step=5),
+plt.xticks(ticks=np.arange(1900, 2024, step=5),
            fontsize=14,
            rotation=45)
 
 ax1 = plt.gca()
 ax2 = ax1.twinx() # create second y-axis
-ax1.set_xlim(1900, 2020)
+ax1.set_xlim(1900, 2024)
+
+# Invert axis
+ax2.invert_yaxis()
 
 ax1.scatter(x=prize_per_year.index,
             y=prize_per_year.values,
@@ -161,7 +164,7 @@ ax1.plot(prize_per_year.index,
         linewidth=3)
 
 # Adding prize share plot on second axis
-ax2.plt(prize_per_year.index,
+ax2.plot(prize_per_year.index,
         share_moving_average.values,
         c='grey',
         linewidth=3)
