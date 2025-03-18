@@ -190,3 +190,16 @@ h_bar.update_layout(xaxis_title='Number of Prizes',
                     yaxis_title='Country',
                     coloraxis_showscale=False)
 h_bar.show()
+
+df_countries = df_data.groupby(['birth_country_current', 'ISO'],
+                               as_index=False).agg({'prize': pd.Series.count})
+df_countries.sort_values('prize', ascending=False)
+
+world_map = px.choropleth(df_countries,
+                          locations='ISO',
+                          color='prize',
+                          hover_name='birth_country_current',
+                          color_continuous_scale=px.colors.sequential.matter)
+world_map.update_layout(coloraxis_showscale=True)
+
+world_map.show()
