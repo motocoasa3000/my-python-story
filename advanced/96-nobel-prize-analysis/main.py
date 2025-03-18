@@ -183,7 +183,7 @@ h_bar = px.bar(x=top20_countries.prize,
               y=top20_countries.birth_country_current,
               orientation='h',
               color=top20_countries.prize,
-              color_continuous_sclae='Viridis',
+              color_continuous_scale='Viridis',
               title='Top 20 Countries by number of Prizes')
 
 h_bar.update_layout(xaxis_title='Number of Prizes',
