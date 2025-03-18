@@ -170,3 +170,23 @@ ax2.plot(prize_per_year.index,
         linewidth=3)
 
 plt.show()
+
+
+top_countries = df_data.groupby(['birth_country_current'],
+                                as_index=False).agg({'prize': pd.Series.count})
+
+top_countries.sort_values(by='prize', inplace=True)
+top20_countries = top_countries[-20:]
+top20_countries
+
+h_bar = px.bar(x=top20_countries.prize,
+              y=top20_countries.birth_country_current,
+              orientation='h',
+              color=top20_countries.prize,
+              color_continuous_sclae='Viridis',
+              title='Top 20 Countries by number of Prizes')
+
+h_bar.update_layout(xaxis_title='Number of Prizes',
+                    yaxis_title='Country',
+                    coloraxis_showscale=False)
+h_bar.show()
