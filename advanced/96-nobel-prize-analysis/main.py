@@ -203,3 +203,24 @@ world_map = px.choropleth(df_countries,
 world_map.update_layout(coloraxis_showscale=True)
 
 world_map.show()
+
+cat_country = df_data.groupby(['birth_country_current', 'category'],
+                              as_index=False).agg({'prize': pd.Series.count})
+cat_country.sort_values(by='prize', ascending=False, inplace=True)
+cat_country
+
+merged_df = pd.merge(cat_country, top20_countries, on='birth_country_current')
+# change column names
+merged_df.columns = ['birthday_country_current', 'category', 'cat_prize', 'total_prize']
+merged_df.sort_values(by='total_prize', inplace=True)
+merged_df
+
+cat_cntry_bar = px.bar(x=merged_df.cat_prize,
+                       y=merged_df.birth_country_current,
+                       color=merged_df.category,
+                       orientation='h',
+                       title='Top 20 Countries by Number of Prizes and Category')
+
+cat_cntry_bar.update_layout(xaxis_title='Number of Prizes',
+                            yaxis_title='Country')
+cat_cntry_bar.show()
