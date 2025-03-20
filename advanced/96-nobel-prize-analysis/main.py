@@ -224,3 +224,51 @@ cat_cntry_bar = px.bar(x=merged_df.cat_prize,
 cat_cntry_bar.update_layout(xaxis_title='Number of Prizes',
                             yaxis_title='Country')
 cat_cntry_bar.show()
+
+prize_by_year = df_data.groupby(by=['birth_country_current', 'year'], as_index=False).count()
+prize_by_year = prize_by_year.sort_values('year')[['year', 'birth_country_current', 'prize']]
+prize_by_year
+
+cumulative_prizes = prize_by_year.groupby(by=['birth_country_current',
+                                              'year']).sum().groupby(level=[0]).cumsum()
+cumulative_prizes.reset_index(inplace=True)
+
+l_chart = px.line(cumulative_prizes,
+                  x='year',
+                  y='prize',
+                  color='birth_country_current',
+                  hover_name='birth_country_current')
+
+l_chart.update_layout(xaxis_title='Year',
+                      yaxis_title='Number of Prizes')
+
+l_chart.show()
+
+top20_orgs = df_data.organization_name.value_counts()[:20]
+top20_orgs.sort_values(ascending=True, inplace=True)
+
+org_bar = px.bar(x = top20_orgs.values,
+                 y = top20_orgs.index,
+                 orientation='h',
+                 color=top20_orgs.values,
+                 color_continuous_scale=px.colors.sequential.haline,
+                 title='Top 20 Research Institutions by Number of Prizes')
+
+org_bar.update_layout(xaxis_title='Number of Prizes',
+                      yaxis_title='Institution',
+                      coloraxis_showscale=False)
+org_bar.show()
+
+top20_org_cities = df_data.organization_city.value_counts()[:20]
+top20_org_cities.sort_values(ascending=True, inplace=True)
+city_bar2 = px.bar(x = top20_org_cities.values,
+                  y = top20_org_cities.index,
+                  orientation='h',
+                  color=top20_org_cities.values,
+                  color_continuous_scale=px.colors.sequential.Plasma,
+                  title='Which Cities Do the Most Research?')
+
+city_bar2.update_layout(xaxis_title='Number of Prizes',
+                       yaxis_title='City',
+                       coloraxis_showscale=False)
+city_bar2.show()
