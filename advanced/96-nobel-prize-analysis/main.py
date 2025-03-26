@@ -272,3 +272,24 @@ city_bar2.update_layout(xaxis_title='Number of Prizes',
                        yaxis_title='City',
                        coloraxis_showscale=False)
 city_bar2.show()
+
+top20_cities = df_data.birth_city.value_counts()[:20]
+top20_cities.sort_values(ascending=True, inplace=True)
+city_bar = px.bar(x=top20_cities.values,
+                  y=top20_cities.index,
+                  orientation='h',
+                  color=top20_cities.values,
+                  color_continuous_scale=px.colors.sequential.Plasma,
+                  title='Where were the Nobel Laureates Born?')
+
+city_bar.update_layout(xaxis_title='Number of Prizes',
+                       yaxis_title='City of Birth',
+                       coloraxis_showscale=False)
+city_bar.show()
+
+country_city_org = df_data.groupby(by=['organization_country',
+                                       'organization_city',
+                                       'organization_name'], as_index=False).agg({'prize': pd.Series.count})
+
+country_city_org = country_city_org.sort_values('prize', ascending=False)
+country_city_org
