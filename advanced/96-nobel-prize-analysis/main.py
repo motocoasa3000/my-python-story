@@ -3,7 +3,7 @@ import numpy as np
 import plotly.express as px
 import seaborn as sns
 import matplotlib.pyplot as plt
-
+from PIL._imaging import display
 
 pd.options.display.float_format = '{:,.2f}'.format
 
@@ -293,3 +293,43 @@ country_city_org = df_data.groupby(by=['organization_country',
 
 country_city_org = country_city_org.sort_values('prize', ascending=False)
 country_city_org
+
+burst = px.sunburst(country_city_org,
+                    path=['organization_country', 'organization_city', 'organization_name'],
+                    values='prize',
+                    title='Where do Discoveries Take Place?')
+
+burst.update_layout(xaxis_title='Number of Prizes',
+                    yaxis_title='City',
+                    coloraxis_showscale=False)
+
+burst.show()
+
+# Use Datetime object
+birth_years = df_data.birth_date.dt.year
+birth_years
+
+df_data['winning_age'] = df_data.year - birth_years
+df_data.winning_age
+
+display(df_data.nlargest(n=1, columns='winning_age'))
+display(df_data.nsmallest(n=1, columns='winning_age'))
+df_data.winning_age.describe()
+
+plt.figure(figsize=(8, 4), dpi=200)
+sns.histplot(data=df_data,
+             x=df_data.winning_age,
+             bins=30)
+plt.xlabel('Age')
+plt.title('Distribution of Age on Receipt of Prize')
+plt.show()
+
+plt.figure(figsize=(8,4), dpi=200)
+with sns.axes_style("whitegrid"):
+    sns.regplot(data=df_data,
+                x='year',
+                y='winning_age',
+                lowess=True,
+                scatter_kws = {'alpha': 0.4},
+                line_kws={'color': 'black'})
+plt.show()
