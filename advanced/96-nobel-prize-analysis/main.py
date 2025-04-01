@@ -333,3 +333,21 @@ with sns.axes_style("whitegrid"):
                 scatter_kws = {'alpha': 0.4},
                 line_kws={'color': 'black'})
 plt.show()
+
+plt.figure(figsize=(8,4), dpi=200)
+with sns.axes_style("whitegrid"):
+    sns.boxplot(data=df_data,
+                x='category',
+                y='winning_age')
+plt.show()
+
+# Box plot using plotly instead
+box = px.box(df_data,
+             x='category',
+             y='winning_age',
+             title='How old are the Winners?')
+
+box.update_layout(xaxis_title='Category',
+                  yaxis_title='Age at time of Award',
+                  xaxis={'categoryorder':'mean ascending'},)
+box.show()
