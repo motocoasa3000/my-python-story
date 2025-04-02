@@ -216,7 +216,7 @@ merged_df.sort_values(by='total_prize', inplace=True)
 merged_df
 
 cat_cntry_bar = px.bar(x=merged_df.cat_prize,
-                       y=merged_df.birth_country_current,
+                       y=merged_df.birthday_country_current,
                        color=merged_df.category,
                        orientation='h',
                        title='Top 20 Countries by Number of Prizes and Category')
@@ -351,3 +351,25 @@ box.update_layout(xaxis_title='Category',
                   yaxis_title='Age at time of Award',
                   xaxis={'categoryorder':'mean ascending'},)
 box.show()
+
+with sns.axes_style('whitegrid'):
+    sns.lmplot(data=df_data,
+               x='year',
+               y='winning_age',
+               row = 'category',
+               lowess=True,
+               aspect=2,
+               scatter_kws = {'alpha': 0.6},
+               line_kws = {'color': 'black'})
+    plt.show()
+
+    with sns.axes_style('whitegrid'):
+        sns.lmplot(data=df_data,
+                   x='year',
+                   y='winning_age',
+                   hue='category',
+                   lowess=True,
+                   aspect=2,
+                   scatter_kws={'alpha': 0.5},
+                   line_kws={'linewidth': 5})
+plt.show()
