@@ -1,6 +1,7 @@
 import pandas as pd
 import matplotlib.dates as mdates
 import matplotlib.pyplot as plt
+import plotly.express as px
 
 
 # Notebook Presentation
@@ -75,3 +76,21 @@ ax2.plot(df_monthly.date,
          linewidth=2,
          linestyle='--')
 plt.show()
+
+
+# The Yearly Data Split by Clinic
+line = px.line(df_yearly,
+               x='year',
+               y='births',
+               color='clinic',
+               title='Total Yearly Births by Clinic')
+
+line.show()
+
+line = px.line(df_yearly,
+               x='year',
+               y='deaths',
+               color='clinic',
+               title='Total Yearly Deaths by Clinic')
+
+line.show()
