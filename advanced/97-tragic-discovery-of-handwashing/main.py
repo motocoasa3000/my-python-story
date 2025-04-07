@@ -3,6 +3,8 @@ import matplotlib.dates as mdates
 import matplotlib.pyplot as plt
 import plotly.express as px
 
+from matplotlib.lines import lineStyles
+import scipy.stats as stats
 
 # Notebook Presentation
 pd.options.display.float_format = '{:,.2f'.format
@@ -94,3 +96,64 @@ line = px.line(df_yearly,
                title='Total Yearly Deaths by Clinic')
 
 line.show()
+
+
+# The Effect of Handwashing
+
+# Date of mandatory handwashing
+handwashing_start = pd.to_datetime('1847-06-01')
+
+df_monthly['pct_deaths'] = df_monthly.deaths/df_monthly.births
+# Split monthly into before and after handwashing_start
+before_washing = df_monthly[df_monthly.date < handwashing_start]
+after_washing = df_monthly[df_monthly.date >= handwashing_start]
+
+bw_rate = before_washing.deaths.sum() / before_washing.births.sum() * 100
+aw_rate = after_washing.deaths.sum() / after_washing.births.sum() * 100
+print(f'Average death rate before 1847 was {bw_rate:.4}%')
+print(f'Average death rate after 1847 was {aw_rate:.3}%')
+
+# Calculate a Rolling Average of the Death Rate
+# Convert date column to index first so does not get dropped
+roll_df = before_washing.set_index('date')
+roll_df = roll_df.rolling(window=6).mean()
+roll_df
+
+# Highlighting Subsections of a Line Chart
+plt.figure(figsize=(14,8), dpi=200)
+plt.title('Percentage of Monthly Deaths over Time', fontsize=18)
+plt.yticks(fontsize=14)
+plt.xticks(fontsize=14, rotation=45)
+
+plt.ylabel('Percentage of Deaths', color='crimson', fontsize=18)
+
+ax = plt.gca()
+ax.xaxis.set_major_locator(years)
+ax.xaxis.set_major_formatter(years_fmt)
+ax.xaxis.set_minor_locator(months)
+ax.set_xlim([df_monthly.date.min(), df_monthly.date.max()])
+
+plt.grid(color='grey', linestyle='--')
+
+ma_line, = plt.plot(roll_df.index,
+                   roll_df.pct_deaths,
+                    color='crimson',
+                    linewidth=3,
+                    linestyle='--',
+                    label='6m Moving Average')
+bw_line, = plt.plot(before_washing.date,
+                    before_washing.pct_deaths,
+                    color='black',
+                    linewidth=1,
+                    linestyle='--',
+                    label='Before Handwashing')
+aw_line, = plt.plot(after_washing.date,
+                    after_washing.pct_deaths,
+                    color='skyblue',
+                    linewidth=3,
+                    marker='o',
+                    label='After Handwashing')
+
+plt.legend(handles=[ma_line, bw_line, aw_line],
+           fontsize=18)
+plt.show()
