@@ -2,6 +2,7 @@ import pandas as pd
 import matplotlib.dates as mdates
 import matplotlib.pyplot as plt
 import plotly.express as px
+import numpy as np
 
 from matplotlib.lines import lineStyles
 import scipy.stats as stats
