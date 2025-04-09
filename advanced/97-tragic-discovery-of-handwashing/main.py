@@ -157,3 +157,31 @@ aw_line, = plt.plot(after_washing.date,
 plt.legend(handles=[ma_line, bw_line, aw_line],
            fontsize=18)
 plt.show()
+
+
+# Statistics - Calculate the Difference in the average monthly death rate
+avg_prob_before = before_washing.pct_deaths.mean() * 100
+print(f'Chance of death during childbirth before handwashing: {avg_prob_before:.3}%.')
+
+avg_prob_after = after_washing.pct_deaths.mean() * 100
+print(f'Chance of death during childbirth AFTER handwashing: {avg_prob_after:.3}%.')
+
+mean_diff = avg_prob_before - avg_prob_after
+print(f'Handwashing reduced the monthly proportion of deaths by {mean_diff:.3}%!')
+
+times = avg_prob_before / avg_prob_after
+print(f'This is a {times:.2}x improvement!')
+
+# Use Box Plots to show the death rate changed before and after handwashing
+# NumPy .where() method
+df_monthly['washing_hands'] = np.where(df_monthly.date < handwashing_start, 'No', 'Yes')
+box = px.box(df_monthly,
+             x='washing_hands',
+             y='pct_deaths',
+             color='washing_hands',
+             title='How Have the Stats Changed with Handwashing?')
+
+box.update_layout(xaxis_title='Washing Hands?',
+                  yaxis_title='Percentage of Monthly Deaths',)
+
+box.show()
