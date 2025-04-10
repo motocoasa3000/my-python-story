@@ -3,6 +3,7 @@ import matplotlib.dates as mdates
 import matplotlib.pyplot as plt
 import plotly.express as px
 import numpy as np
+import seaborn as sns
 
 from matplotlib.lines import lineStyles
 import scipy.stats as stats
@@ -186,3 +187,43 @@ box.update_layout(xaxis_title='Washing Hands?',
                   yaxis_title='Percentage of Monthly Deaths',)
 
 box.show()
+
+
+# Histograms to visualise the monthly distribution of outcomes
+hist = px.histogram(df_monthly,
+                    x='pct_deaths',
+                    color='washing_hands',
+                    nbins=30,
+                    opacity=0.6,
+                    barmode='overlay',
+                    histnorm='percent',
+                    marginal='box')
+
+hist.update_layout(xaxis_title='Proportion of Monthly Deaths',
+                   yaxis_title='Count')
+hist.show()
+
+# # Kernel Density Estimate (KDE) to visualise smooth distribution
+# plt.figure(dpi=200)
+# # By default, the distribution estimate includes a negative death rate!
+# sns.kdeplot(before_washing.pct_deaths, shade=True)
+# sns_kdeplot(after_washing.pct_deaths, shade=True)
+# plt.title('Est. Distribution of Monthly Death Rate Before and After Hand-washing')
+# plt.show()
+#
+# plt.figure(dpi=200)
+# sns.kdeplot(before_washing.pct_deaths,
+#             shade=True,
+#             clip=(0,1))
+# sns_kdeplot(after_washing.pct_deaths,
+#             shade=True,
+#             clip(0,1))
+# plt.title('Est. Distribution of montlhy deaths rate before and after handwashing')
+# plt.xlim(0, 0.40)
+# plt.show()
+
+t_stat, p_value = stats.ttest_ind(a=before_washing.pct_deaths,
+                                  b=after_washing.pct_deaths)
+print(f'p-palue is {p_value:.10f}')
+print(f't-statstic is {t_stat:.4}')
+
