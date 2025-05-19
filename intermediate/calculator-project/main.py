@@ -13,6 +13,9 @@ def get_operation(operator):
     display.insert(i, operator)
     i+=length
 
+def clear_all():
+    display.delete(0,END)
+
 display = Entry(root)
 display.grid(row=1, columnspan=6)
 
@@ -37,5 +40,9 @@ for x in range(4):
                             command=lambda text=operations[count]:get_operation(text))
             count+=1
             button.grid(row=x + 2, column=y+3)
+
+Button(root,text="AC", width=2, height=2, command=clear_all).grid(row=5,column=0)
+Button(root,text="=", width=2, height=2).grid(row=5,column=2)
+
 
 root.mainloop()
