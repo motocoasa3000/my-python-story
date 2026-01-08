@@ -28,7 +28,7 @@ if will_rain:
 
     message = client.messages.create(
         from_='+16207431718',
-        to='yournr',
+        to='your nr',
         body="Hello"
     )
 
